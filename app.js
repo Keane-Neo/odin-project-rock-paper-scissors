@@ -1,84 +1,75 @@
 const choices = ["rock", "paper", "scissors"];
 const scores = [0, 0];
 
-const playRound = (player, computer) => {
-  let playerSelection = "";
-  // Player choice
-  do {
-    playerSelection = prompt("rock, paper, scissors").toLowerCase();
-  } while (
-    playerSelection !== "rock" &&
-    playerSelection !== "paper" &&
-    playerSelection !== "scissors"
-  );
-
+const playRound = (player) => {
   // Computer choice
   const random = Math.floor(Math.random() * 3);
   const computerSelection = choices[random];
 
-  console.log(`player selection = ${playerSelection}`);
+  console.log(`player selection = ${player}`);
   console.log(`computer selection = ${computerSelection}`);
 
   // Determine winner and print
-
-  switch (playerSelection) {
+  let message = "";
+  switch (player) {
     case "rock":
       if (computerSelection === "paper") {
         scores[1]++;
-        console.log("Paper beats Rock, you lose!");
+        message = "Paper beats Rock, you lose!";
         break;
       } else if (computerSelection === "scissors") {
         scores[0]++;
-        console.log("Rock beats Scissors, you win!");
+        message = "Rock beats Scissors, you win!";
         break;
       } else {
-        console.log("It's a draw!");
+        message = "It's a draw!";
         break;
       }
 
     case "paper":
       if (computerSelection === "rock") {
         scores[0]++;
-        console.log("Paper beats Rock, you win!");
+        message = "Paper beats Rock, you win!";
         break;
       } else if (computerSelection == "scissors") {
         scores[1]++;
-        console.log("Scissors beats paper, you lose!");
+        message = "Scissors beats paper, you lose!";
         break;
       } else {
-        console.log("It's a draw!");
+        message = "It's a draw!";
         break;
       }
 
     case "scissors":
       if (computerSelection === "rock") {
         scores[1]++;
-        console.log("Rock beats Scissors, you lose!");
+        message = "Rock beats Scissors, you lose!";
         break;
       } else if (computerSelection === "paper") {
         scores[0]++;
-        console.log("Scissors beats paper, you win!");
+        message = "Scissors beats paper, you win!";
         break;
       } else {
-        console.log("It's a draw!");
+        message = "It's a draw!";
         break;
       }
   }
+
+  const player_score = document.querySelector(".player-score");
+  player_score.innerText = scores[0];
+
+  const computer_score = document.querySelector(".computer-score");
+  computer_score.innerText = scores[1];
+
+  const result = document.querySelector(".message");
+  result.innerText = message;
 };
 
-const game = () => {
-  for (let i = 0; i < 5; i++) {
-    playRound();
-    console.log(
-      `Current Score (Player - Computer) = ${scores[0]}:${scores[1]}`
-    );
-  }
-};
+const buttons = document.querySelectorAll("button");
 
-game();
-/* Get player Selection
-Determine computer Selection
-Determine winner 
-print out winner
-
-repeat for as many rounds needed */
+// Add an event listener for each button
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    playRound(button.id);
+  });
+});
